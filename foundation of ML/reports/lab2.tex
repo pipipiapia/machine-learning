@@ -1,0 +1,130 @@
+\documentclass[11pt]{article}
+
+\title {Machine Learning MSc Lab 2}
+\author{Yang Tan, yt9u22@soton.ac.uk, 34006702}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+    
+\urlstyle{same}
+
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[a4paper, total={7in, 10.5in}]{geometry}
+\usepackage{caption}
+\usepackage{array}
+\usepackage{bm}
+
+\begin{document}
+\maketitle
+\section{Perceptron}
+Firstly, built a 2d data set which is linearly separable and implemented the Perceptron Algorithm (Fig.~\ref{fig:f1}).Then, built another 2d data set which cannot be linearly separable with the same algorithm. (Fig.~\ref{fig:f2}).In the later situation, perceptron algorithm failed finally which is the disadvantage of this algorithm. In addition, in each round the incorrect data sets were selected randomly, that means the final results $\bm{w}^T$ could be a bit different in each time. 
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width = 1\textwidth]{class_2d.png}
+\caption{linearly separable data sets}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width = 1\textwidth]{perceptron_ls_26.png}
+\caption{Round 26}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width = 1\textwidth]{perceptron_ls_35.png}
+\caption{Round 35 (convergence)}
+\end{subfigure}
+\caption{Procedure of Perceptron Algorithm}
+\label{fig:f1}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width = 1\textwidth]{class_2d_nls.png}
+\caption{non linearly separable data sets}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width = 1\textwidth]{perceptron_ls2_26.png}
+\caption{Round 26  }
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width = 1\textwidth]{perceptron_ls2_51.png}
+\caption{Round 51 (not convergence)}
+\end{subfigure}
+\caption{Procedure of Perceptron Algorithm}
+\label{fig:f2}
+\end{figure}
+
+
+\href{https://github.com/pipipiapia/machine_learing_foundation/blob/617c439ad7e2d1e40603feca24b0f88e03ac51a0/lab_1/perceptron.ipynb}{Codes Git Link}
+
+
+
+\section{FLD}
+After building two data sets $\bm{X_1}$ and $\bm{X_2}$ which were produced by different normal distribution function, applied Fisher Linear Discriminant algorithm to these two data sets. See the results in Fig.~\ref{fig:f3} and Fig.~\ref{fig:f4} In summary, FLD do work with varying distributions of data.
+
+Basically, FLD makes less the dimensions of $\bm{X}$ to analyse data that is called LDA(Liniear Discriminant Analysis). Actually, there is also other dimension reduction techniques like PCA(Principle Component Analysis). Compared with PCA produced by singular decomposition, LDA aims at finding the maximum of separation between different classes to maximise the Fisher Ratio $J(\theta)$
+
+\[J(\theta)=\frac{(m_1-m_2)^2}{S_1^2+S_2^2}=\frac{\theta^T S_B \theta}{\theta^T S_W \theta}\]
+Between-class scatter matrix
+\[S_B = (u_1 - u_2)(u_1 - u_2)^T \] 
+ Within-class scatter matrix
+\[S_W = C_1 + C_2 = \sum(x_n - u_1)^2 + \sum(x_n-u_2)^2 \] 
+To solve this problem:
+\[\frac{\partial{J(\theta)}}{\partial{\theta}} = \frac{2\theta S_B(\theta^T S_W \theta) - 2 \theta S_W(\theta^T S_B \theta)}{(\theta^T S_W \theta)^2} = 0\]
+\[  \leftrightarrow S_W\theta = \alpha S_B \theta = \alpha (u_1 - u_2)\bm{(u_1 - u_2)^T \theta} \]
+\begin{equation}\label{eq:fld_solve}
+\leftrightarrow \theta \propto S_W^{-1} (u_1 - u_2) 
+\end{equation}
+The solution of FLD is \eqref{eq:fld_solve}. In addition, $S_W$ must be none-singular matrix which means if the dimensions of $\bm{X}$ are much more than N, FLD could not work.
+
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width = 1\textwidth]{fld_X3_fld.png}
+\caption{data set  $\bm{X_1}$ }
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width = 1\textwidth]{fld_hist_X3_fld.png}
+\caption{histogram of projected data}
+\end{subfigure}
+\caption{FLD with $\bm{X_1}$ }
+\label{fig:f3}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width = 1\textwidth]{fld_X4_fld.png}
+\caption{data set  $\bm{X_2}$}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+\includegraphics[width = 1\textwidth]{fld_hist_X4_fld.png}
+\caption{histogram of projected data}
+\end{subfigure}
+\caption{FLD with $\bm{X_2}$ }
+\label{fig:f4}
+\end{figure}
+
+\href{https://github.com/pipipiapia/machine_learing_foundation/blob/main/lab_1/FisherLinearDiscriminant.ipynb}{Codes Git Link}
+
+
+
+\end{document}
